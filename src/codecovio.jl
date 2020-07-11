@@ -145,6 +145,16 @@ module Codecov
                 commit       = ENV["GITHUB_SHA"],
                 slug         = ENV["GITHUB_REPOSITORY"],
             )
+        elseif haskey(ENV, "GITLAB_CI")
+            kwargs = set_defaults(kwargs,
+                service      = "gitlab",
+                branch       = ENV["CI_COMMIT_REF_NAME"],
+                build        = ENV["CI_JOB_ID"],
+                build_url    = ENV["CI_JOB_URL"],
+                job          = ENV["CI_JOB_NAME"],
+                commit       = ENV["CI_COMMIT_SHA"],
+                slug         = ENV["CI_PROJECT_PATH"],
+            )
         else
             error("No compatible CI platform detected")
         end
